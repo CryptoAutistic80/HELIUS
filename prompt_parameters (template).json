@@ -1,0 +1,18 @@
+{
+    "model": "gpt-4", ## replace with "gpt-3.5-turbo" is you don't have access to 4
+    "messages": [
+        {
+            "role": "system",
+            "content": "INSERT SYSTEM PROMPT"
+        },
+        {
+            "role": "user",
+            "content": "INSERT MESSAGE"
+        },
+        {
+            "role": "assistant",
+            "content": "INSERT BOT RESPONSE"
+        }
+
+    ]
+}
