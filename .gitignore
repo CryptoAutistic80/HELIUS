@@ -1,9 +1,1 @@
 prompt_parameters.json
-/__pycache__
-.config
-.git
-/venv
-.replit
-.upm
-poetry.lock
-pyproject.toml

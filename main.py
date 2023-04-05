@@ -59,6 +59,11 @@ async def on_message(message):
     if not isinstance(message.channel, discord.Thread) or not message.channel.is_private:
         return
 
+    # Check message length
+    if len(message.content.split()) > 80:
+        await message.channel.send("As much as I like you, I ain't your personal proof reader.....keep in under 80 words please.")
+        return
+
     add_chat_history(message.author.id, message.author, message.content, user_chat_histories)
 
     message_content = message.content
