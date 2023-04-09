@@ -11,6 +11,7 @@ from ai import openai
 from ai import process_requests
 from utils import end_inactive_chat
 from config import MESSAGE_WORD_LIMIT
+from document_processing import process_files
 
 # Set OpenAI API key
 openai.api_key = OPENAI_KEY
@@ -54,7 +55,7 @@ async def chat(ctx):
             return
 
         thread = await ctx.channel.create_thread(name=f"Chat with {ctx.author.name}", type=discord.ChannelType.private_thread)
-        await thread.send(f"Hello {ctx.author.mention}! You can start chatting with me. Type '!end' to end the conversation.")
+        await thread.send(f"Hello {ctx.author.mention}! You can start chatting with me. Type da command '!end' to wrap things up.....")
         active_threads.add(ctx.author.id)
 
         # Call end_inactive_conversation after starting the conversation
@@ -114,4 +115,5 @@ async def on_message(message):
         await message.channel.send("I'm sorry, there was an issue processing your request. Please try again later.")
 
 keep_alive()
+process_files()
 client.run(TOKEN)

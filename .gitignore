@@ -1,1 +1,4 @@
 prompt_parameters.json
+Doc_Processing/embeddings/
+Doc_Processing/processed_files.json
+!Doc_Processing/PDF_documents/.gitkeep
