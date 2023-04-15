@@ -6,16 +6,16 @@ import openai
 import pinecone
 import numpy as np
 from config import MAX_RETRIES, PINECONE_KEY
-from document_processing import embed_text
+from document_processing import gpt_embed
 from document_processing import output_path
-from config import TOP_K_SIMILAR_DOCS
+from config import TOP_K_SIMILAR_DOCS, BOT_TOKENS, PERSONALITY_TEMP
 
 # Intialise pinecone
 pinecone.init(api_key=PINECONE_KEY, environment='us-east1-gcp')
 pinecone_indexer = pinecone.Index("core-69")
 
 # Fuction to query pinecone
-async def query_pinecone(query_vector_np, top_k=TOP_K_SIMILAR_DOCS, namespace="pdf-documents"):
+async def query_pinecone(query_vector_np, top_k=TOP_K_SIMILAR_DOCS, namespace="knowledge"):
     query_results = pinecone_indexer.query(
         vector=query_vector_np.tolist(),
         top_k=top_k,
@@ -69,7 +69,7 @@ async def get_response(message_author_id, message_content, api_semaphore, prompt
             chat_history = user_chat_histories.get(message_author_id, [])
             
             # Convert the user's message to an embedding
-            message_embedding = np.array(embed_text(message_content), dtype=np.float32)
+            message_embedding = np.array(gpt_embed(message_content), dtype=np.float32)
             
             # Query Pinecone for the top 4 semantically similar documents
             similar_docs_metadata = await query_pinecone(message_embedding)
@@ -83,7 +83,10 @@ async def get_response(message_author_id, message_content, api_semaphore, prompt
                 response = await loop.run_in_executor(None, lambda: openai.ChatCompletion.create(
                     model=prompt_parameters["model"],
                     messages=prompt_parameters["messages"] + chat_history_with_similar_docs,
-                    max_tokens=500
+                    max_tokens=BOT_TOKENS,
+                    temperature=PERSONALITY_TEMP,
+                    frequency_penalty=0.0,
+                    presence_penalty=0.0
                 ))
 
             return response.choices[0].message['content'].strip()
@@ -93,6 +96,9 @@ async def get_response(message_author_id, message_content, api_semaphore, prompt
                 await asyncio.sleep(1)
             else:
                 raise e
+              
+
+
 
 
 

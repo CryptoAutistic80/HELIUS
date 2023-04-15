@@ -2,6 +2,8 @@ import json
 import asyncio
 from discord.errors import NotFound
 from config import CHAT_HISTORY
+from config import CONVO_TIMEOUT
+import time
 
 # Load prompt parameters from a JSON file
 def load_prompt_parameters(filename):
@@ -21,7 +23,7 @@ def add_chat_history(user_id, author, content, user_chat_histories):
     user_chat_histories[user_id] = user_chat_histories[user_id][-CHAT_HISTORY:]
 
 # End a chat after a specified timeout due to inactivity
-async def end_inactive_chat(user_id, channel, active_threads, timeout=60):
+async def end_inactive_chat(user_id, channel, active_threads, last_activity, timeout=CONVO_TIMEOUT):
     # Wait for the specified timeout
     await asyncio.sleep(timeout)
 
@@ -30,14 +32,25 @@ async def end_inactive_chat(user_id, channel, active_threads, timeout=60):
         return
 
     try:
-        # Delete the chat channel
-        await channel.delete()
+        # Check if the user has been inactive for the specified timeout
+        last_activity_time = last_activity[user_id]
+        current_time = time.time()
+        inactivity_time = current_time - last_activity_time
+
+        # If the user has been inactive for the specified timeout, delete the channel
+        if inactivity_time >= timeout:
+            await channel.delete()
+            # Remove the user from the active_threads set only after deleting the channel
+            active_threads.discard(user_id)
+            # Remove the user from the last_activity dictionary
+            last_activity.pop(user_id, None)
+        else:
+            # Reschedule the check with the remaining time
+            remaining_time = timeout - inactivity_time
+            asyncio.create_task(end_inactive_chat(user_id, channel, active_threads, last_activity, remaining_time))
     except NotFound:
         print(f"Channel not found for user {user_id}. It may have been deleted by another process.")
     except Exception as e:
         print(f"Error occurred while deleting the channel for user {user_id}: {e}")
-
-    # Remove the user from the active_threads set
-    active_threads.discard(user_id)
 
 

@@ -85,6 +85,21 @@ tests-no-zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "c
 tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.12.2"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "blis"
 version = "0.7.9"
 description = "The Blis BLAS-like linear algebra library, as a self-contained C-extension."
@@ -94,6 +109,17 @@ python-versions = "*"
 
 [package.dependencies]
 numpy = ">=1.15.0"
+
+[[package]]
+name = "bs4"
+version = "0.0.1"
+description = "Dummy package for Beautiful Soup"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+beautifulsoup4 = "*"
 
 [[package]]
 name = "catalogue"
@@ -252,6 +278,14 @@ description = "A list-like structure which implements collections.abc.MutableSeq
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "html2text"
+version = "2020.1.16"
+description = "Turn HTML into equivalent Markdown-structured text."
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "idna"
@@ -604,6 +638,14 @@ global = ["platformdirs (>=1.4.4)"]
 validation = ["pydantic (>=1.7.4)"]
 
 [[package]]
+name = "readability"
+version = "0.3.1"
+description = "Measure the readability of a given text using surface characteristics"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "regex"
 version = "2023.3.23"
 description = "Alternative regular expression module, to replace re."
@@ -711,6 +753,14 @@ s3 = ["boto3"]
 ssh = ["paramiko"]
 test = ["boto3", "google-cloud-storage (>=2.6.0)", "azure-storage-blob", "azure-common", "azure-core", "requests", "paramiko", "moto", "responses", "pytest", "pytest-rerunfailures"]
 webhdfs = ["requests"]
+
+[[package]]
+name = "soupsieve"
+version = "2.4"
+description = "A modern CSS selector implementation for Beautiful Soup."
+category = "main"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "spacy"
@@ -975,7 +1025,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "f0ea12145665269a851bd4638b1666b09d8da43992caf6d8c148ac8ce4e2302e"
+content-hash = "637f3d5c8c99ed9142ee916e0a87675f39946f5519eee5d78317991352259fb6"
 
 [metadata.files]
 aiohttp = []
@@ -984,7 +1034,9 @@ argon2-cffi = []
 argon2-cffi-bindings = []
 async-timeout = []
 attrs = []
+beautifulsoup4 = []
 blis = []
+bs4 = []
 catalogue = []
 certifi = []
 cffi = []
@@ -999,6 +1051,7 @@ discord = []
 "discord.py" = []
 flask = []
 frozenlist = []
+html2text = []
 idna = []
 iso8601 = []
 itsdangerous = []
@@ -1028,12 +1081,14 @@ pypdf2 = []
 pyseto = []
 python-lsp-jsonrpc = []
 pytoolconfig = []
+readability = []
 regex = []
 replit = []
 replit-python-lsp-server = []
 requests = []
 rope = []
 smart-open = []
+soupsieve = []
 spacy = []
 spacy-legacy = []
 spacy-loggers = []

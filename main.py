@@ -11,7 +11,8 @@ from ai import openai
 from ai import process_requests
 from utils import end_inactive_chat
 from config import MESSAGE_WORD_LIMIT
-from document_processing import process_files
+from document_processing import process_all
+import time
 
 # Set OpenAI API key
 openai.api_key = OPENAI_KEY
@@ -22,6 +23,9 @@ client = commands.Bot(command_prefix="!", intents=intents)
 
 # Initialize a set to store active threads (conversations)
 active_threads = set()
+
+# Initialize a dictionary to store last activity for each user
+last_activity = {}
 
 # Initialize a dictionary to store chat histories for each user
 user_chat_histories = {}
@@ -58,8 +62,8 @@ async def chat(ctx):
         await thread.send(f"Hello {ctx.author.mention}! You can start chatting with me. Type da command '!end' to wrap things up.....")
         active_threads.add(ctx.author.id)
 
-        # Call end_inactive_conversation after starting the conversation
-        asyncio.create_task(end_inactive_chat(ctx.author.id, thread, active_threads))
+        # Call end_inactive_chat after starting the conversation and pass the last_activity dictionary
+        asyncio.create_task(end_inactive_chat(ctx.author.id, thread, active_threads, last_activity))
 
 # Define the "!end" command to end a chat and delete the private thread
 @client.command()
@@ -69,13 +73,15 @@ async def end(ctx):
         await ctx.channel.delete()
         active_threads.discard(ctx.author.id)
 
-
 # Define the "on_message" event to handle messages and generate chatbot responses
 @client.event
 async def on_message(message):
     # Ignore messages from the bot itself
     if message.author == client.user:
         return
+
+    # Update the user's last activity timestamp
+    last_activity[message.author.id] = time.time()
 
     # Process commands first
     await client.process_commands(message)
@@ -84,7 +90,7 @@ async def on_message(message):
     if not isinstance(message.channel, discord.Thread) or not message.channel.is_private:
         return
 
-    # Check message length
+        # Check message length
     if len(message.content.split()) > MESSAGE_WORD_LIMIT:
         await message.channel.send(f"As much as I like you, I ain't your personal proof reader.....keep it under {MESSAGE_WORD_LIMIT} words please.")
         return
@@ -115,5 +121,6 @@ async def on_message(message):
         await message.channel.send("I'm sorry, there was an issue processing your request. Please try again later.")
 
 keep_alive()
-process_files()
+process_all()
 client.run(TOKEN)
+
