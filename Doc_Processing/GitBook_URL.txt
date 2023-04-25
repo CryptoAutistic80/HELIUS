@@ -4,3 +4,5 @@ https://lemurlounge.gitbook.io/lounge-paper-v1.0/Introduction/introduction
 https://aptos.dev/
 https://docs.hypers.me/
 https://docs.tsunami.finance/
+https://python.langchain.com/en/latest/index.html
+https://docs.pinecone.io/docs/quickstart

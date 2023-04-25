@@ -15,7 +15,7 @@ MAX_RETRIES = 10
 PERSONALITY_TEMP = 0.5
 
 # Set number of tokens the bot can use for the chat completion
-BOT_TOKENS = 600
+BOT_TOKENS = 400
 
 # Set the number of chat messages in the chat history
 CHAT_HISTORY = 10
