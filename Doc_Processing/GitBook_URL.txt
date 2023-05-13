@@ -4,3 +4,7 @@ https://docs.hypers.me/
 https://docs.pinecone.io/docs/quickstart
 https://aptos-lend.gitbook.io/abel-finance/
 https://link.medium.com/k3lGXmFRfzb
+https://docs.thala.fi/thala-protocol-design/
+https://aptos-dragons.gitbook.io/aptos-dragons-whitepaper/aptos-dragons/what-is-aptos-dragons
+https://schemers.gitbook.io/general-information/
+https://aptos.dev/
