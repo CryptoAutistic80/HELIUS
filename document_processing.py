@@ -126,7 +126,10 @@ def get_all_links(url, soup):
         href = urljoin(url, href)
 
         parsed_href = urlparse(href)
-        href = parsed_href.scheme + "://" + parsed_href.hostname + parsed_href.path
+        if parsed_href.scheme and parsed_href.hostname and parsed_href.path:
+            href = parsed_href.scheme + "://" + parsed_href.hostname + parsed_href.path
+        else:
+            continue
 
         if not is_valid_url(href):
             continue
@@ -135,6 +138,7 @@ def get_all_links(url, soup):
             links.add(href)
 
     return links
+
 
 def get_title_text(url):
     r = requests.get(url)

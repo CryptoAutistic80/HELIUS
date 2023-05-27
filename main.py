@@ -1,6 +1,7 @@
 # Import necessary libraries and modules
 import discord
 import asyncio
+import threading
 from discord.ext import commands
 from discord.errors import NotFound
 from keep_alive import keep_alive
@@ -120,7 +121,19 @@ async def on_message(message):
         print(f"Error occurred while processing message after all retries: {e}")
         await message.channel.send("I'm sorry, there was an issue processing your request. Please try again later.")
 
-keep_alive()
-process_all()
-client.run(TOKEN)
+if __name__ == "__main__":
+    # Create a Thread object and target it to the function you want to run in a separate thread
+    process_thread = threading.Thread(target=process_all)
+
+    # Start the thread
+    process_thread.start()
+
+    # Optional: If you want the main thread to wait until process_thread is done, uncomment the next line
+    # process_thread.join()
+
+    print("Document processing started successfully.")
+
+    keep_alive()
+    client.run(TOKEN)
+    
 

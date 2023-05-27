@@ -8,3 +8,6 @@ https://docs.thala.fi/thala-protocol-design/
 https://aptos-dragons.gitbook.io/aptos-dragons-whitepaper/aptos-dragons/what-is-aptos-dragons
 https://schemers.gitbook.io/general-information/
 https://aptos.dev/
+https://docs.pontem.network/00.-about-pontem/about
+https://docs.nextcord.dev/en/stable/
+https://docs.wapal.io/
